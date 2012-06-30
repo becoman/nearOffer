@@ -1,21 +1,19 @@
 package beta.beer;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
+
+import android.util.Log;
 
 
 public class LeerYunait {
@@ -53,76 +51,50 @@ public class LeerYunait {
 		return strUrl;
 	}
 	
-	public  JSONArray getOfferts()  {
+	public  JSONArray getOfferts() throws JSONException  {
 			
-		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet();
+		JSONObject obj = this.getJSONfromURL( this.getUrlStr() );
 
+		JSONArray arr = obj.getJSONArray("data");
 		
-		try {
-//			URI url = new URI("http://www.yunait.com/rest/deals/in?format=json&lat=40.407742&lng=-3.703211&national=0&key="+KEY);
-
-			URI url = new URI(getUrlStr());
-			request.setURI(url);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-		HttpResponse response = null;
-		
-		try {
-			response = client.execute(request);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		StringBuilder builder = new StringBuilder();
-		
-		try {
-			for (String line = null; (line = reader.readLine()) != null;) {
-			    builder.append(line).append("\n");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		JSONArray finalResult = null;
-		
-		JSONTokener tokener = new JSONTokener(builder.toString());
-		
-		try {
-			JSONObject result = new JSONObject(tokener);
-			finalResult = result.getJSONArray("data");
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-
-		
-		
-		return finalResult;
+		return arr;
 	}
+	
+	public JSONObject getJSONfromURL(String url){
+	     InputStream is = null;
+	     String result = "";
+	     JSONObject json = null;
+	      try{
+	         HttpClient httpclient = new DefaultHttpClient();
+	         HttpGet httppost = new HttpGet(url);
+	         HttpResponse response = httpclient.execute(httppost);
+	         HttpEntity entity = response.getEntity();
+	         is = entity.getContent();
+	     }catch(Exception e){
+	    	 
+	    	 Log.v("error", e.toString());
+	     }
+
+	      try{
+	         BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
+	         StringBuilder sb = new StringBuilder();
+	         String line = null;
+	         while ((line = reader.readLine()) != null) {
+	             sb.append(line + "\n");
+	         }
+	         is.close();
+	         result=sb.toString();
+	     } catch(Exception e){
+	    	 Log.v("error", e.toString());
+	     }
+
+	     try{
+	         json = new JSONObject(result);
+	     }catch(JSONException e){
+	    	 Log.v("error", e.toString());
+	     }
+
+	      return json;
+	 }
 	
 }
