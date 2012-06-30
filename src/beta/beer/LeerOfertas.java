@@ -27,7 +27,7 @@ public class LeerOfertas {
 		
 		int i;		
 		
-		for( i = 0; i < data.length(); i++ ){
+		for( i = 1; i < 4; i++ ){
 			
 			JSONObject item =  (JSONObject) data.get(i);			
 			

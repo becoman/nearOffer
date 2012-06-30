@@ -42,8 +42,7 @@ public class NearOfferActivity extends Activity {
         {
         	Log.v("ERROR", "JSON");
         }
-        
-        
+        launchARView();
     }
     
     public void launchARView() {  
