@@ -150,17 +150,22 @@ public class Oferta {
 	public double getLatitude() {
 		return latitude;
 	}
+
 	public void setLatitude(double d) {
 		this.latitude = d;
+
 	}
 	public double getLongitude() {
 		return longitude;
 	}
+
 	public void setLongitude(double d) {
 		this.longitude = d;
+
 	}
 	public int getId() {
 		return id;
 	}	
+	
 	
 }

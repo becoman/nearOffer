@@ -1,5 +1,7 @@
 package beta.beer;
 
+import java.util.Date;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -27,10 +29,11 @@ public class localizacion implements Runnable {
 		defaultGPS = new coordenada(40.420341, -3.701625);
 	}
 	
-	public void exec ()
+	public coordenada exec ()
 	{
-		Thread thread = new Thread(this);
-		thread.start();
+	/*	Thread thread = new Thread(this);
+		thread.start();*/
+		return defaultGPS;
 	}
 	
 	public void run()
@@ -39,9 +42,15 @@ public class localizacion implements Runnable {
 		boolean activado = localizacionManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		if (activado)
 		{
+			Date time= new Date();
+			long ahora=time.getTime();
 			Looper.prepare();
 			MyLocationListener mLocationListener = new MyLocationListener();
 			localizacionManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+			if ((time.getTime()-ahora)>10*1000)
+			{
+				Looper.myLooper().quit();
+			}
 			Looper.loop(); 
 			Looper.myLooper().quit(); 	
 			
@@ -89,6 +98,7 @@ public class localizacion implements Runnable {
 		    	//	outlat.setText("Latitude: " + currentLocation.getLatitude());
 		    		//outlong.setText("Longitude: " + currentLocation.getLongitude());
 		    		Log.v("GPS",currentLocation.getLatitude()+" - " +currentLocation.getLongitude() );
+		    		defaultGPS = new coordenada(currentLocation.getLongitude(), currentLocation.getLatitude());
 		    	}
 			}
 		};
