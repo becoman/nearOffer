@@ -24,8 +24,8 @@ public class Oferta {
 	private String partner;
 	private String image;
 	private String favicon;
-	private float latitude;
-	private float longitude;
+	private double latitude;
+	private double longitude;
 	
 	public String getUrl() {
 		return url;
@@ -147,17 +147,17 @@ public class Oferta {
 	public void setFavicon(String favicon) {
 		this.favicon = favicon;
 	}
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
+	public void setLatitude(double d) {
+		this.latitude = d;
 	}
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
+	public void setLongitude(double d) {
+		this.longitude = d;
 	}
 	public int getId() {
 		return id;
