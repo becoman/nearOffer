@@ -21,33 +21,35 @@ import org.json.JSONTokener;
 public class LeerYunait {
 
 	final String KEY = "484f3ccc716c2d25069b416ce0cabedd6fc54572";
-	private String lat = "40.407742";
-	private String lng = "-3.703211";
+	private double lat = 40.407742;
+	private double lng = -3.703211;
 	
-	public String getLat() {
+	public double getLat() {
 		return lat;
 	}
 
-	public void setLat(String lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
 
-	public String getLng() {
+	public double getLng() {
 		return lng;
 	}
 
-	public void setLng(String lng) {	
+	public void setLng(double lng) {	
 		this.lng = lng;
 	}
 
 	public String getUrlStr()
 	{
+		
 		String strUrl = "http://www.yunait.com/rest/deals/in?";
 		strUrl += "format=json";
-		strUrl += "&lat="+lat;
-		strUrl += "&lng="+lng;
+		strUrl += "&lat=" +  ( (Object) lat).toString();
+		strUrl += "&lng=" +  ( (Object) lng).toString();
 		strUrl += "&national=0";
 		strUrl += "&key="+ KEY;
+		
 		return strUrl;
 	}
 	
@@ -123,7 +125,4 @@ public class LeerYunait {
 		return finalResult;
 	}
 	
-	
-
-
 }
