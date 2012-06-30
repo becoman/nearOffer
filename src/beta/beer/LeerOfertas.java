@@ -1,5 +1,6 @@
 package beta.beer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -20,6 +21,7 @@ public class LeerOfertas {
 		LeerYunait getJson = new LeerYunait();
 		getJson.setLat(lat);
 		getJson.setLat(lng);		
+		listaOfertas=new ArrayList<Oferta>(); 
 		
 		JSONArray data = getJson.getOfferts();
 		
@@ -32,14 +34,14 @@ public class LeerOfertas {
 			Oferta ofer = new Oferta();
 			
 			ofer.setTitle( item.getString("title") );
-			ofer.setDescription( item.getString("description ") );
-			ofer.setUrl( item.getString("url") );
+			ofer.setDescription( item.getString("description") );
+			
 			ofer.setUrl( item.getString("url") );
 			ofer.setLatitude( item.getDouble("latitude") );
 			ofer.setLongitude( item.getDouble("latitude") );
-			ofer.setImage( item.getString("image") );			
-			
+			ofer.setImage( item.getString("image") );	
 			listaOfertas.add(ofer);
+			
 		}	
 		
 	}

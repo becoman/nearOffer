@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.openintents.intents.AbstractWikitudeARIntent;
 import org.openintents.intents.WikitudeARIntent;
 import org.openintents.intents.WikitudePOI;
@@ -31,16 +32,24 @@ public class NearOfferActivity extends Activity {
         setContentView(R.layout.main);
         localizacion locate=new localizacion(getBaseContext());
         coordenada coordenadaLocal=locate.exec();
-        launchARView();
-        
+        LeerOfertas lector=new LeerOfertas();
+        lector.setLng(coordenadaLocal.getX());
+        lector.setLat(coordenadaLocal.getY());
+        try{
+        lector.parseFile();
+        ofertas=lector.getListaOfertas();
+        }catch( JSONException e )
+        {
+        	Log.v("ERROR", "JSON");
+        }
         
         
     }
     
     public void launchARView() {  
-    	ofertas=new ArrayList<Oferta>();
+    	
     	 intent = new WikitudeARIntent(this.getApplication(), null, null, true); 
-    	 Oferta ofertado=new Oferta();
+    	/* Oferta ofertado=new Oferta();
     	 ofertado.setTitle("Inicio Orgullo Gay");
     	 ofertado.setDescription("Inicio de la cabalgata del Orgullo Gay");
     	 ofertado.setLongitude(40.419149);
@@ -54,7 +63,7 @@ public class NearOfferActivity extends Activity {
     	 ofertado2.setLongitude(40.42338);
     	 ofertado2.setLatitude(-3.711061);
     	 ofertado2.setUrl("http://roboces.es");
-    	 ofertas.add(ofertado2);
+    	 ofertas.add(ofertado2);*/
     	
     	 for ( Oferta oferta1:ofertas)
     	 {
